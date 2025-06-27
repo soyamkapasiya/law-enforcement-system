@@ -35,9 +35,9 @@ public class CaseIngestionRoute extends RouteBuilder {
                 .process(exchange -> {
                     CaseReport caseReport = exchange.getIn().getBody(CaseReport.class);
 
-                    if (caseReport.getReportedAt() == null) {
-                        caseReport.setReportedAt(java.time.LocalDateTime.now());
-                    }
+//                    if (caseReport.getReportedAt() == null) {
+//                        caseReport.setReportedAt(java.time.LocalDateTime.now());
+//                    }
 
                     if (caseReport.getCaseId() == null || caseReport.getCaseId().isEmpty()) {
                         caseReport.setCaseId("CASE-" + System.currentTimeMillis());
@@ -50,7 +50,7 @@ public class CaseIngestionRoute extends RouteBuilder {
                 .routeId("kafka-producer-route")
                 .marshal().json(JsonLibrary.Jackson)
                 .log("Sending to Kafka: ${body}")
-                .to("kafka:case-events?brokers=localhost:9092")
+                .to("kafka:case-events?brokers=pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092")
                 .log("Case sent to Kafka successfully");
     }
 }

@@ -1,12 +1,12 @@
 package com.poc.case_processing_service.model;
 
-import com.arangodb.entity.DocumentField;
+import com.arangodb.serde.jackson.Key;
 import lombok.Data;
 
 @Data
 public class CaseVertex {
 
-    @DocumentField(DocumentField.Type.KEY)
+    @Key
     private String key;
     private String caseId;
     private String caseType;

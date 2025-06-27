@@ -1,14 +1,16 @@
 package com.poc.case_processing_service.model;
 
-import com.arangodb.entity.DocumentField;
+import com.arangodb.serde.jackson.From;
+import com.arangodb.springframework.annotation.To;
 import lombok.Data;
 
 @Data
 public class CasePersonEdge {
-    @DocumentField(DocumentField.Type.FROM)
+
+    @From
     private String from;
 
-    @DocumentField(DocumentField.Type.TO)
+    @To
     private String to;
 
     private String role; // SUSPECT, VICTIM, WITNESS

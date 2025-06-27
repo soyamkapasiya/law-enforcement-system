@@ -2,7 +2,6 @@ package com.poc.case_ingestion_service.controller;
 
 import com.poc.case_ingestion_service.model.CaseReport;
 import com.poc.case_ingestion_service.service.CaseIngestionService;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +14,7 @@ public class CaseController {
     private CaseIngestionService caseIngestionService;
 
     @PostMapping("/submit")
-    public ResponseEntity<String> submitCase(@Valid @RequestBody CaseReport caseReport) {
+    public ResponseEntity<String> submitCase(@RequestBody CaseReport caseReport) {
         try {
             caseIngestionService.processCase(caseReport);
             return ResponseEntity.ok("Case submitted successfully: " + caseReport.getCaseId());

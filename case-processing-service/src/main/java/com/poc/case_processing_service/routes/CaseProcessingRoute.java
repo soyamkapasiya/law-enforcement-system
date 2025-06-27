@@ -21,7 +21,7 @@ public class CaseProcessingRoute extends RouteBuilder {
     @Override
     public void configure() throws Exception {
 
-        from("kafka:case-events?brokers=localhost:9092&groupId=case-processing-group")
+        from("kafka:case-events?brokers=pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092&groupId=case-processing-group")
                 .routeId("kafka-consumer-route")
                 .log("Received case from Kafka: ${body}")
                 .unmarshal().json(JsonLibrary.Jackson, CaseReport.class)
@@ -115,8 +115,8 @@ public class CaseProcessingRoute extends RouteBuilder {
         caseVertex.setCaseId(caseReport.getCaseId());
         caseVertex.setCaseType(caseReport.getCaseType());
         caseVertex.setStatus(caseReport.getStatus());
-        caseVertex.setReportedAt(caseReport.getReportedAt() != null ?
-                caseReport.getReportedAt().toString() : null);
+//        caseVertex.setReportedAt(caseReport.getReportedAt() != null ?
+//                caseReport.getReportedAt().toString() : null);
         caseVertex.setDescription(caseReport.getDescription());
         caseVertex.setReportingOfficer(caseReport.getReportingOfficer());
         return caseVertex;
