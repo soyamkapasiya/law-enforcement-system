@@ -2,25 +2,34 @@ package com.poc.case_ingestion_service.controller;
 
 import com.poc.case_ingestion_service.model.CaseReport;
 import com.poc.case_ingestion_service.service.CaseIngestionService;
-import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/cases")
+@RequiredArgsConstructor
 public class CaseController {
 
-    @Autowired
-    private CaseIngestionService caseIngestionService;
+    private final CaseIngestionService caseIngestionService;
 
     @PostMapping("/submit")
-    public ResponseEntity<String> submitCase(@Valid @RequestBody CaseReport caseReport) {
+    public ResponseEntity<String> submitCase(@RequestBody CaseReport caseReport) {
         try {
             caseIngestionService.processCase(caseReport);
             return ResponseEntity.ok("Case submitted successfully: " + caseReport.getCaseId());
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Error processing case: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/{caseId}")
+    public ResponseEntity<?> getCaseById(@PathVariable String caseId) {
+        try {
+            CaseReport caseReport = caseIngestionService.getCaseById(caseId);
+            return ResponseEntity.ok(caseReport);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Error retrieving case: " + e.getMessage());
         }
     }
 
