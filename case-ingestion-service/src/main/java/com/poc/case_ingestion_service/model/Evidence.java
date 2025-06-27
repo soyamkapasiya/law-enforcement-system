@@ -11,6 +11,6 @@ public class Evidence {
     private String type; // PHYSICAL, DIGITAL, TESTIMONIAL
     private String description;
     private String collectedBy;
-//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-//    private LocalDateTime collectedAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime collectedAt;
 }

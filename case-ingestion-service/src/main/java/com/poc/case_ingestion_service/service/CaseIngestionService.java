@@ -15,4 +15,9 @@ public class CaseIngestionService {
         // Send to Camel route for processing
         producerTemplate.sendBody("direct:processCase", caseReport);
     }
+
+    public CaseReport getCaseById(String caseId) {
+        // Use requestBody to get a response from the route
+        return producerTemplate.requestBody("direct:getCaseById", caseId, CaseReport.class);
+    }
 }

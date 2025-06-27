@@ -35,9 +35,9 @@ public class CaseIngestionRoute extends RouteBuilder {
                 .process(exchange -> {
                     CaseReport caseReport = exchange.getIn().getBody(CaseReport.class);
 
-//                    if (caseReport.getReportedAt() == null) {
-//                        caseReport.setReportedAt(java.time.LocalDateTime.now());
-//                    }
+                    if (caseReport.getReportedAt() == null) {
+                        caseReport.setReportedAt(java.time.LocalDateTime.now());
+                    }
 
                     if (caseReport.getCaseId() == null || caseReport.getCaseId().isEmpty()) {
                         caseReport.setCaseId("CASE-" + System.currentTimeMillis());
@@ -52,5 +52,19 @@ public class CaseIngestionRoute extends RouteBuilder {
                 .log("Sending to Kafka: ${body}")
                 .to("kafka:case-events?brokers=pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092")
                 .log("Case sent to Kafka successfully");
+
+        from("direct:getCaseById")
+                .routeId("get-case-by-id-route")
+                .log("Getting case by ID: ${body}")
+                .process(exchange -> {
+                    String caseId = exchange.getIn().getBody(String.class);
+                    CaseReport mockCase = new CaseReport();
+                    mockCase.setCaseId(caseId);
+                    mockCase.setStatus("RETRIEVED");
+                    mockCase.setReportedAt(java.time.LocalDateTime.now());
+
+                    exchange.getIn().setBody(mockCase);
+                })
+                .log("Retrieved case: ${body}");
     }
 }

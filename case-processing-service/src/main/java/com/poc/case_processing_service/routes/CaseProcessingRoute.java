@@ -1,9 +1,11 @@
 package com.poc.case_processing_service.routes;
 
 import com.poc.case_ingestion_service.model.CaseReport;
+import com.poc.case_ingestion_service.model.Evidence;
 import com.poc.case_ingestion_service.model.Location;
 import com.poc.case_ingestion_service.model.Person;
 import com.poc.case_processing_service.model.CaseVertex;
+import com.poc.case_processing_service.model.EvidenceVertex;
 import com.poc.case_processing_service.model.PersonVertex;
 import com.poc.case_processing_service.model.LocationVertex;
 import com.poc.case_processing_service.service.GraphDatabaseService;
@@ -73,11 +75,21 @@ public class CaseProcessingRoute extends RouteBuilder {
 
         if (caseReport.getLocation() != null) {
             LocationVertex locationVertex = createLocationVertex(caseReport.getLocation());
-            graphDatabaseService.saveLocationToGraph(locationVertex);
+            String locationKey = graphDatabaseService.saveLocationToGraph(locationVertex);
+            graphDatabaseService.createCaseLocationRelationship(caseKey, locationKey);
+        }
+
+        if (caseReport.getEvidence() != null && !caseReport.getEvidence().isEmpty()) {
+            for (Evidence evidence : caseReport.getEvidence()) {
+                EvidenceVertex evidenceVertex = createEvidenceVertex(evidence);
+                String evidenceKey = graphDatabaseService.saveEvidenceToGraph(evidenceVertex);
+                // Create case-evidence relationship
+                graphDatabaseService.createCaseEvidenceRelationship(caseKey, evidenceKey);
+            }
         }
 
         exchange.getIn().setBody(caseVertex);
-        log.info("Successfully stored case {} in graph database", caseKey);
+        log.info("Successfully stored case {} with all related entities in graph database", caseKey);
     }
 
     /**
@@ -115,11 +127,23 @@ public class CaseProcessingRoute extends RouteBuilder {
         caseVertex.setCaseId(caseReport.getCaseId());
         caseVertex.setCaseType(caseReport.getCaseType());
         caseVertex.setStatus(caseReport.getStatus());
-//        caseVertex.setReportedAt(caseReport.getReportedAt() != null ?
-//                caseReport.getReportedAt().toString() : null);
+        caseVertex.setReportedAt(caseReport.getReportedAt() != null ?
+                caseReport.getReportedAt().toString() : null);
         caseVertex.setDescription(caseReport.getDescription());
         caseVertex.setReportingOfficer(caseReport.getReportingOfficer());
         return caseVertex;
+    }
+
+    private EvidenceVertex createEvidenceVertex(Evidence evidenceReport) {
+        EvidenceVertex evidenceVertex = new EvidenceVertex();
+        evidenceVertex.setEvidenceId(evidenceReport.getEvidenceId());
+        evidenceVertex.setDescription(evidenceReport.getDescription());
+        evidenceVertex.setType(evidenceReport.getType());
+        evidenceVertex.setCollectedAt(evidenceReport.getCollectedAt() != null ?
+                evidenceReport.getCollectedAt().toString() : null);
+        // Fixed: Was setting description instead of collectedBy
+        evidenceVertex.setCollectedBy(evidenceReport.getCollectedBy());
+        return evidenceVertex;
     }
 
     private PersonVertex createPersonVertex(Person person) {
