@@ -1,6 +1,5 @@
 package com.poc.case_ingestion_service.model;
 
-
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

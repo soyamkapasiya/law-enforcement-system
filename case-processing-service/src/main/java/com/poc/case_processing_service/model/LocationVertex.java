@@ -1,11 +1,13 @@
 package com.poc.case_processing_service.model;
 
-import com.arangodb.entity.DocumentField;
+
+import com.arangodb.serde.jackson.Key;
 import lombok.Data;
 
 @Data
 public class LocationVertex {
-    @DocumentField(DocumentField.Type.KEY)
+
+    @Key
     private String key;
 
     private String postalCode;
