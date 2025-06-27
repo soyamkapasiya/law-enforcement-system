@@ -1,0 +1,31 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: case-processing-service
+
+camel:
+  springboot:
+    name: CaseProcessingCamel
+  component:
+    kafka:
+      brokers: localhost:9092
+
+arangodb:
+  host: localhost
+  port: 8529
+  database: police_cases
+  username: root
+  password: password
+
+logging:
+  level:
+    com.police: DEBUG
+    org.apache.camel: INFO
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
