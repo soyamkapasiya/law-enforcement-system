@@ -36,3 +36,11 @@ law-enforcement-system/
 ├── docker-compose.yml
 └── README.md
 ```
+
+| Tech           | Role                            | Why It's Used                                                        |
+| -------------- | ------------------------------- | -------------------------------------------------------------------- |
+| Spring Boot    | REST API layer (data ingestion) | Easy microservice setup, integrates well with Camel, Kafka, ArangoDB |
+| Apache Camel   | Routing and processing          | Clean and maintainable integration between components                |
+| Apache Kafka   | Asynchronous messaging bus      | Reliable decoupling, scalability, event reprocessing                 |
+| ArangoDB       | Persistent graph data store     | Models case relationships naturally, powerful queries                |
+| Docker Compose | DevOps & infra setup            | Easy to run Kafka, ArangoDB, Zookeeper locally                       |
