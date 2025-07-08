@@ -1,16 +1,19 @@
 package com.poc.case_ingestion_service.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 @Data
 public class Evidence {
     private String evidenceId;
-    private String type; // PHYSICAL, DIGITAL, TESTIMONIAL
+    private String type; // PHYSICAL, DIGITAL, TESTIMONIAL, FORENSIC, SURVEILLANCE
     private String description;
     private String collectedBy;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime collectedAt;
+    private String collectedAt;
+    private String storageLocation;
+    private String chainOfCustody;
+    private Boolean isSealed;
+    private String fileReference;
+    private Map<String, Object> metadata;
 }

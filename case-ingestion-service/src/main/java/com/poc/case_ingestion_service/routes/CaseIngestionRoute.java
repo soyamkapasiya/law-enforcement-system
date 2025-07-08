@@ -36,7 +36,7 @@ public class CaseIngestionRoute extends RouteBuilder {
                     CaseReport caseReport = exchange.getIn().getBody(CaseReport.class);
 
                     if (caseReport.getReportedAt() == null) {
-                        caseReport.setReportedAt(java.time.LocalDateTime.now());
+                        caseReport.setReportedAt(String.valueOf(java.time.LocalDateTime.now()));
                     }
 
                     if (caseReport.getCaseId() == null || caseReport.getCaseId().isEmpty()) {
@@ -61,7 +61,7 @@ public class CaseIngestionRoute extends RouteBuilder {
                     CaseReport mockCase = new CaseReport();
                     mockCase.setCaseId(caseId);
                     mockCase.setStatus("RETRIEVED");
-                    mockCase.setReportedAt(java.time.LocalDateTime.now());
+                    mockCase.setReportedAt(String.valueOf(java.time.LocalDateTime.now()));
 
                     exchange.getIn().setBody(mockCase);
                 })

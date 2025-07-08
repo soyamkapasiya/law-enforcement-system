@@ -107,7 +107,7 @@ public class GraphDatabaseService {
         }
     }
 
-    // NEW: Create case-evidence relationship
+    // Create case-evidence relationship
     public void createCaseEvidenceRelationship(String caseKey, String evidenceKey) {
         validateNotEmpty(caseKey, "Case key cannot be empty");
         validateNotEmpty(evidenceKey, "Evidence key cannot be empty");
@@ -126,7 +126,7 @@ public class GraphDatabaseService {
         }
     }
 
-    // NEW: Create case-location relationship
+    // Create case-location relationship
     public void createCaseLocationRelationship(String caseKey, String locationKey) {
         validateNotEmpty(caseKey, "Case key cannot be empty");
         validateNotEmpty(locationKey, "Location key cannot be empty");
@@ -338,7 +338,7 @@ public class GraphDatabaseService {
         }
     }
 
-    // FIXED: Collection management methods
+    // Collection management methods
     public boolean collectionExists(String collectionName) {
         try {
             return !arangoDatabase.collection(collectionName).exists();

@@ -10,14 +10,23 @@ camel:
     name: CaseProcessingCamel
   component:
     kafka:
-      brokers: localhost:9092
+      brokers: pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092
+      security-protocol: SASL_SSL
+      sasl-mechanism: PLAIN
+      sasl-jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username="6XPDT7QESVVJWEDC" password="xnvJErs0c04Hg+qJzljM3UgmAyWUgcWILu9j2asR8GqfIzFEd9XiIIDO43ayaMsj";
+      ssl-endpoint-identification-algorithm: https
+      group-id: case-processing-group
+      auto-offset-reset: earliest
+
 
 arangodb:
-  host: localhost
-  port: 8529
-  database: police_cases
-  username: root
-  password: password
+  hosts: e217e1ee0ec0.arangodb.cloud:8529
+  protocol: http_json   # Very important for ArangoGraph (cloud)
+  user: root
+  password: IuKB9T5QfAhhpYuvcLsN
+  database: case_management
+  use-ssl: true
+
 
 logging:
   level:

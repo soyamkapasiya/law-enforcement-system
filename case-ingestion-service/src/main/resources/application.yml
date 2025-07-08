@@ -10,12 +10,18 @@ camel:
     name: CaseIngestionCamel
   component:
     kafka:
-      brokers: localhost:9092
+      brokers: pkc-l7pr2.ap-south-1.aws.confluent.cloud:9092
+      security-protocol: SASL_SSL
+      sasl-mechanism: PLAIN
+      sasl-jaas-config: org.apache.kafka.common.security.plain.PlainLoginModule required username="6XPDT7QESVVJWEDC" password="xnvJErs0c04Hg+qJzljM3UgmAyWUgcWILu9j2asR8GqfIzFEd9XiIIDO43ayaMsj";
+      ssl-endpoint-identification-algorithm: https
+
 
 logging:
   level:
     com.police: DEBUG
     org.apache.camel: INFO
+
 
 management:
   endpoints:
